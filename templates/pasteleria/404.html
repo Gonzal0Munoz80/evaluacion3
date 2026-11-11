@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pastel no disponible | Dulce Encanto</title>
+    <link rel="stylesheet" href="{% static 'css/catalogo.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{% url 'catalogo' %}">
+            <span class="brand-mark" aria-hidden="true">D</span>
+            <span>Dulce Encanto</span>
+        </a>
+    </header>
+    <main class="error-page">
+        <div class="error-number">404</div>
+        <p class="eyebrow">Ups, una pequeña pausa dulce</p>
+        <h1>Este pastel no está disponible</h1>
+        <p>Puede que se haya agotado o que ya no esté en nuestro catálogo.</p>
+        <a class="button button-primary" href="{% url 'catalogo' %}">Volver al catálogo</a>
+    </main>
+    <footer class="site-footer">
+        <a class="brand" href="{% url 'catalogo' %}">
+            <span class="brand-mark" aria-hidden="true">D</span>
+            <span>Dulce Encanto</span>
+        </a>
+        <p>Pastelería artesanal · Hecho con cariño</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ producto.nombre }} | Dulce Encanto</title>
+    <link rel="stylesheet" href="{% static 'css/catalogo.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{% url 'catalogo' %}">
+            <span class="brand-mark" aria-hidden="true">D</span>
+            <span>Dulce Encanto</span>
+        </a>
+        <a class="text-link" href="{% url 'catalogo' %}">← Volver al catálogo</a>
+    </header>
+
+    <main class="detail-section">
+        <div class="detail-art" aria-hidden="true">✦</div>
+        <div class="detail-copy">
+            <p class="eyebrow">Preparado artesanalmente</p>
+            <h1>{{ producto.nombre }}</h1>
+            <p>{{ producto.descripcion }}</p>
+            <p class="detail-portion">Porción: {{ producto.porcion }}</p>
+            <p class="detail-price">${{ producto.precio }}</p>
+            <p class="availability-message">
+                {% if producto.stock > 0 %}
+                    ¡Tenemos {{ producto.stock }} disponibles!
+                {% else %}
+                    Este pastel no está disponible por el momento.
+                {% endif %}
+            </p>
+            <a class="button button-primary" href="{% url 'catalogo' %}">Seguir mirando</a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <a class="brand" href="{% url 'catalogo' %}">
+            <span class="brand-mark" aria-hidden="true">D</span>
+            <span>Dulce Encanto</span>
+        </a>
+        <p>Pastelería artesanal · Hecho con cariño</p>
+    </footer>
+</body>
+</html>
