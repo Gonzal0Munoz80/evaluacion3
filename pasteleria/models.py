@@ -8,7 +8,7 @@ class producto(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField()
     porcion = models.CharField(max_length=50)
-
+    imagen = models.ImageField(upload_to='productos/',blank=True, null=True)
     def __str__(self):
         return self.nombre
 
