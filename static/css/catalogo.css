@@ -519,6 +519,104 @@ h2,
     font-weight: 600;
 }
 
+.order-section {
+    display: grid;
+    min-height: 65vh;
+    place-items: center;
+    padding: 48px 20px;
+    background: var(--cream);
+}
+
+.order-card {
+    width: min(100%, 560px);
+    padding: 38px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 16px 40px rgb(57 43 49 / 7%);
+}
+
+.order-card h1 {
+    margin-bottom: 12px;
+    font-size: clamp(30px, 5vw, 42px);
+}
+
+.order-card > p:not(.eyebrow) {
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.order-summary {
+    margin-bottom: 24px;
+    color: var(--rose-dark) !important;
+    font-weight: 600;
+}
+
+.order-card form p {
+    margin-bottom: 18px;
+}
+
+.order-card label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.order-card input {
+    width: 100%;
+    min-height: 44px;
+    padding: 9px 12px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    color: var(--ink);
+    font: inherit;
+}
+
+.order-card input:focus {
+    border-color: var(--rose);
+    outline: 2px solid rgb(189 104 117 / 15%);
+}
+
+.order-card .errorlist {
+    margin: 6px 0 0;
+    padding-left: 18px;
+    color: #a22;
+    font-size: 13px;
+}
+
+.receipt-details {
+    display: grid;
+    gap: 14px;
+    margin: 28px 0;
+}
+
+.receipt-details div {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+}
+
+.receipt-details dt {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.receipt-details dd {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.receipt-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 .error-page {
     display: flex;
     min-height: 65vh;
@@ -659,5 +757,27 @@ h2,
         justify-content: center;
         padding-top: 20px;
         padding-bottom: 20px;
+    }
+}
+
+@media print {
+    .site-header,
+    .site-footer,
+    .receipt-actions {
+        display: none !important;
+    }
+
+    .order-section {
+        display: block;
+        min-height: 0;
+        padding: 0;
+        background: #fff;
+    }
+
+    .order-card {
+        width: 100%;
+        padding: 0;
+        border: 0;
+        box-shadow: none;
     }
 }

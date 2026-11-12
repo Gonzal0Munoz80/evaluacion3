@@ -47,5 +47,5 @@ class ProductoAdmin(admin.ModelAdmin):
 
 @admin.register(encargo)
 class EncargoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'correo', 'telefono', 'producto')
+    list_display = ('nombre', 'correo', 'telefono', 'producto', 'fecha_retiro')
     search_fields = ('nombre', 'correo', 'telefono', 'producto__nombre')

@@ -16,6 +16,7 @@ class encargo(models.Model):
     nombre = models.CharField(max_length=100)
     correo = models.EmailField()
     telefono = models.CharField(max_length=20)
+    fecha_retiro = models.DateField(null=True, verbose_name='Fecha de retiro')
     producto = models.ForeignKey(producto, on_delete=models.CASCADE)
     def __str__(self):
         return self.nombre

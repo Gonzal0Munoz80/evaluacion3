@@ -58,8 +58,9 @@
             <div class="product-grid">
                 {% for pastel in productos %}
                     <article class="product-card">
-                        <a class="product-image" href="{% url 'detalle_producto' pastel.id %}"
-                           aria-label="Ver disponibilidad de {{ pastel.nombre }}">
+                        <a class="product-image"
+                           href="{% if pastel.stock > 0 %}{% url 'crear_encargo' pastel.id %}{% else %}{% url 'detalle_producto' pastel.id %}{% endif %}"
+                           aria-label="{% if pastel.stock > 0 %}Encargar{% else %}Ver disponibilidad de{% endif %} {{ pastel.nombre }}">
                             <span class="product-image-decoration" aria-hidden="true">✦</span>
                             <span class="product-image-name">{{ pastel.nombre }}</span>
                             {% if pastel.stock <= 0 %}
@@ -82,8 +83,10 @@
                                     <span>Sin stock por ahora</span>
                                 {% endif %}
                             </div>
-                            <a class="text-link" href="{% url 'detalle_producto' pastel.id %}">
-                                Ver disponibilidad <span aria-hidden="true">→</span>
+                            <a class="text-link"
+                               href="{% if pastel.stock > 0 %}{% url 'crear_encargo' pastel.id %}{% else %}{% url 'detalle_producto' pastel.id %}{% endif %}">
+                                {% if pastel.stock > 0 %}Encargar este pastel{% else %}Ver disponibilidad{% endif %}
+                                <span aria-hidden="true">→</span>
                             </a>
                         </div>
                     </article>

@@ -31,7 +31,13 @@
                     Este pastel no está disponible por el momento.
                 {% endif %}
             </p>
-            <a class="button button-primary" href="{% url 'catalogo' %}">Seguir mirando</a>
+            {% if producto.stock > 0 %}
+                <a class="button button-primary" href="{% url 'crear_encargo' producto.id %}">
+                    Encargar este pastel
+                </a>
+            {% else %}
+                <a class="button button-primary" href="{% url 'catalogo' %}">Volver al catálogo</a>
+            {% endif %}
         </div>
     </main>
 

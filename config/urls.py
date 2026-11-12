@@ -29,6 +29,11 @@ urlpatterns = [
         views.detalle_producto,
         name='detalle_producto',
     ),
+    path(
+        'encargar/<int:producto_id>/',
+        views.crear_encargo,
+        name='crear_encargo',
+    ),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Encargar {{ producto.nombre }} | Dulce Encanto</title>
+    <link rel="stylesheet" href="{% static 'css/catalogo.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{% url 'catalogo' %}">
+            <span class="brand-mark" aria-hidden="true">D</span>
+            <span>Dulce Encanto</span>
+        </a>
+        <a class="text-link" href="{% url 'catalogo' %}">← Volver al catálogo</a>
+    </header>
+
+    <main class="order-section">
+        <div class="order-card">
+            {% if enviado %}
+                <section class="receipt">
+                    <p class="eyebrow">Comprobante de encargo #{{ encargo_creado.pk }}</p>
+                    <h1>¡Gracias por tu encargo!</h1>
+                    <p>Registramos tu solicitud. Nos pondremos en contacto contigo para
+                       confirmar los detalles.</p>
+                    <dl class="receipt-details">
+                        <div>
+                            <dt>Producto</dt>
+                            <dd>{{ encargo_creado.producto.nombre }}</dd>
+                        </div>
+                        <div>
+                            <dt>Precio indicado</dt>
+                            <dd>${{ encargo_creado.producto.precio }}</dd>
+                        </div>
+                        <div>
+                            <dt>Fecha de retiro</dt>
+                            <dd>{{ encargo_creado.fecha_retiro|date:"d/m/Y" }}</dd>
+                        </div>
+                        <div>
+                            <dt>Estado</dt>
+                            <dd>Pendiente de confirmación</dd>
+                        </div>
+                        <div>
+                            <dt>Cliente</dt>
+                            <dd>{{ encargo_creado.nombre }}</dd>
+                        </div>
+                        <div>
+                            <dt>Correo</dt>
+                            <dd>{{ encargo_creado.correo }}</dd>
+                        </div>
+                        <div>
+                            <dt>Teléfono</dt>
+                            <dd>{{ encargo_creado.telefono }}</dd>
+                        </div>
+                    </dl>
+                </section>
+                <div class="receipt-actions">
+                    <button class="button button-primary" type="button" onclick="window.print()">
+                        Imprimir comprobante
+                    </button>
+                    <a class="text-link" href="{% url 'catalogo' %}">Volver al catálogo</a>
+                </div>
+            {% else %}
+                <p class="eyebrow">Un momento dulce te espera</p>
+                <h1>Encargar {{ producto.nombre }}</h1>
+                <p class="order-summary">
+                    Precio: ${{ producto.precio }} · {{ producto.stock }} disponibles
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="button button-primary" type="submit">
+                        Enviar encargo
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <a class="brand" href="{% url 'catalogo' %}">
+            <span class="brand-mark" aria-hidden="true">D</span>
+            <span>Dulce Encanto</span>
+        </a>
+        <p>Pastelería artesanal · Hecho con cariño</p>
+    </footer>
+</body>
+</html>
