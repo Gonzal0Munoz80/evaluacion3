@@ -77,5 +77,17 @@ class ProductoAdmin(admin.ModelAdmin):
 
 @admin.register(encargo)
 class EncargoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'correo', 'telefono', 'producto', 'fecha_retiro')
+    list_display = (
+        'nombre',
+        'correo',
+        'telefono',
+        'producto',
+        'cantidad',
+        'total_formateado',
+        'fecha_retiro',
+    )
     search_fields = ('nombre', 'correo', 'telefono', 'producto__nombre')
+
+    @admin.display(description='Total')
+    def total_formateado(self, obj):
+        return f'${obj.total:,.0f}'.replace(',', '.')

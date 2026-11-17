@@ -31,8 +31,16 @@
                             <dd>{{ encargo_creado.producto.nombre }}</dd>
                         </div>
                         <div>
-                            <dt>Precio indicado</dt>
-                            <dd>${{ encargo_creado.producto.precio|floatformat:0|intcomma }}</dd>
+                            <dt>Cantidad</dt>
+                            <dd>{{ encargo_creado.cantidad }}</dd>
+                        </div>
+                        <div>
+                            <dt>Precio por unidad</dt>
+                            <dd>${{ encargo_creado.precio_unitario|floatformat:0|intcomma }}</dd>
+                        </div>
+                        <div>
+                            <dt>Total</dt>
+                            <dd>CLP ${{ encargo_creado.total|floatformat:0|intcomma }}</dd>
                         </div>
                         <div>
                             <dt>Fecha de retiro</dt>

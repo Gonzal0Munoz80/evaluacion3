@@ -59,20 +59,23 @@ class CatalogoTests(TestCase):
                 'correo': 'ana@example.com',
                 'telefono': '+56912345678',
                 'fecha_retiro': '2026-11-20',
-                'cantidad': 1,
+                'cantidad': 2,
             },
         )
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Comprobante de encargo')
+        self.assertContains(response, '<dd>2</dd>', html=True)
+        self.assertContains(response, 'CLP $36')
         self.assertContains(response, '20/11/2026')
         nuevo_encargo = encargo.objects.get(
             nombre='Ana Pérez',
             producto=self.disponible,
         )
         self.assertEqual(nuevo_encargo.fecha_retiro.isoformat(), '2026-11-20')
+        self.assertEqual(nuevo_encargo.total, 36000)
         self.disponible.refresh_from_db()
-        self.assertEqual(self.disponible.stock, 2)
+        self.assertEqual(self.disponible.stock, 1)
 
     def test_formulario_muestra_stock_disponible_si_cantidad_se_excede(self):
         response = self.client.post(
