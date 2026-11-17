@@ -5,6 +5,24 @@ from .models import producto, encargo
 
 
 # Register your models here.
+class DisponibilidadFilter(admin.SimpleListFilter):
+    title = 'Disponibilidad'
+    parameter_name = 'disponibilidad'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('disponible', 'Disponible'),
+            ('agotado', 'Agotado por hoy'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'disponible':
+            return queryset.filter(stock__gt=0)
+        if self.value() == 'agotado':
+            return queryset.filter(stock__lte=0)
+        return queryset
+
+
 @admin.register(producto)
 class ProductoAdmin(admin.ModelAdmin):
     list_display = (
@@ -12,9 +30,11 @@ class ProductoAdmin(admin.ModelAdmin):
         'descripcion',
         'precio_formateado',
         'stock',
+        'disponibilidad',
         'porcion',
         'imagen_preview',
     )
+    list_filter = (DisponibilidadFilter,)
     readonly_fields = ('imagen_preview',)
     fields = (
         'nombre',
@@ -43,6 +63,12 @@ class ProductoAdmin(admin.ModelAdmin):
         precio = format(obj.precio, ',.2f')
         precio = precio.translate(str.maketrans('..', '..'))
         return f'${precio}'
+
+    @admin.display(description='Disponibilidad', ordering='stock')
+    def disponibilidad(self, obj):
+        if obj.stock <= 0:
+            return 'Agotado por hoy'
+        return 'Disponible'
 
 
 @admin.register(encargo)
