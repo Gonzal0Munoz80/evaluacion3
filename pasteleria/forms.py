@@ -16,13 +16,13 @@ class EncargoForm(forms.ModelForm):
     def clean_cantidad(self):
         cantidad = self.cleaned_data['cantidad']
 
+        if cantidad < 1:
+            raise forms.ValidationError(
+                'La cantidad debe ser al menos 1 unidad.'
+            )
         if self.producto and cantidad > self.producto.stock:
             raise forms.ValidationError(
                 f'Solo hay {self.producto.stock} unidades disponibles.'
-            )
-        if cantidad < 1 or cantidad > 3:
-            raise forms.ValidationError(
-                'La cantidad debe estar entre 1 y 3 unidades.'
             )
         return cantidad
 

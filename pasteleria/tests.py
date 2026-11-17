@@ -71,6 +71,8 @@ class CatalogoTests(TestCase):
             producto=self.disponible,
         )
         self.assertEqual(nuevo_encargo.fecha_retiro.isoformat(), '2026-11-20')
+        self.disponible.refresh_from_db()
+        self.assertEqual(self.disponible.stock, 2)
 
     def test_formulario_muestra_stock_disponible_si_cantidad_se_excede(self):
         response = self.client.post(
@@ -87,6 +89,26 @@ class CatalogoTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Solo hay 3 unidades disponibles.')
         self.assertFalse(encargo.objects.exists())
+
+    def test_formulario_acepta_cantidad_mayor_a_tres_si_hay_stock(self):
+        self.disponible.stock = 5
+        self.disponible.save(update_fields=['stock'])
+
+        response = self.client.post(
+            reverse('crear_encargo', args=[self.disponible.pk]),
+            {
+                'nombre': 'Ana Pérez',
+                'correo': 'ana@example.com',
+                'telefono': '+56912345678',
+                'fecha_retiro': '2026-11-20',
+                'cantidad': 4,
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Comprobante de encargo')
+        self.disponible.refresh_from_db()
+        self.assertEqual(self.disponible.stock, 1)
 
     def test_producto_agotado_no_puede_encargarse(self):
         response = self.client.get(
