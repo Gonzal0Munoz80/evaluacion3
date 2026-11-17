@@ -28,6 +28,7 @@ class CatalogoTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.disponible.nombre)
         self.assertContains(response, self.agotado.nombre)
+        self.assertContains(response, 'Agotado por hoy')
         self.assertContains(
             response,
             reverse('crear_encargo', args=[self.disponible.pk]),
@@ -58,6 +59,7 @@ class CatalogoTests(TestCase):
                 'correo': 'ana@example.com',
                 'telefono': '+56912345678',
                 'fecha_retiro': '2026-11-20',
+                'cantidad': 1,
             },
         )
 
@@ -72,10 +74,13 @@ class CatalogoTests(TestCase):
 
     def test_producto_agotado_no_puede_encargarse(self):
         response = self.client.get(
-            reverse('crear_encargo', args=[self.agotado.pk])
+            reverse('crear_encargo', args=[self.agotado.pk]),
+            follow=True,
         )
 
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Agotado por hoy')
+        self.assertFalse(encargo.objects.exists())
 
     def test_fecha_de_retiro_es_obligatoria(self):
         response = self.client.post(
@@ -91,13 +96,17 @@ class CatalogoTests(TestCase):
         self.assertContains(response, 'Fecha de retiro')
         self.assertFalse(encargo.objects.exists())
 
-    def test_detalle_de_producto_agotado_muestra_error_404(self):
+    def test_detalle_de_producto_agotado_muestra_aviso(self):
         response = self.client.get(
             reverse('detalle_producto', args=[self.agotado.pk])
         )
 
-        self.assertEqual(response.status_code, 404)
-        self.assertContains(response, 'Este pastel no está disponible', status_code=404)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Agotado por hoy')
+        self.assertNotContains(
+            response,
+            reverse('crear_encargo', args=[self.agotado.pk]),
+        )
 
     def test_producto_inexistente_muestra_error_404(self):
         response = self.client.get(reverse('detalle_producto', args=[9999]))

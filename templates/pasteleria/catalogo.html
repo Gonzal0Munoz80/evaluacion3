@@ -64,7 +64,7 @@
                             <span class="product-image-decoration" aria-hidden="true">✦</span>
                             <span class="product-image-name">{{ pastel.nombre }}</span>
                             {% if pastel.stock <= 0 %}
-                                <span class="stock-badge sold-out">Agotado</span>
+                                <span class="stock-badge sold-out">Agotado por hoy</span>
                             {% else %}
                                 <span class="stock-badge">Disponible</span>
                             {% endif %}
@@ -80,7 +80,7 @@
                                 {% if pastel.stock > 0 %}
                                     <span>{{ pastel.stock }} disponibles</span>
                                 {% else %}
-                                    <span>Sin stock por ahora</span>
+                                    <span>Agotado por hoy</span>
                                 {% endif %}
                             </div>
                             <a class="text-link"
