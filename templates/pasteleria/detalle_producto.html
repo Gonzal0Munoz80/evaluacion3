@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,7 +24,7 @@
             <h1>{{ producto.nombre }}</h1>
             <p>{{ producto.descripcion }}</p>
             <p class="detail-portion">Porción: {{ producto.porcion }}</p>
-            <p class="detail-price">${{ producto.precio }}</p>
+            <p class="detail-price">${{ producto.precio|floatformat:0|intcomma }}</p>
             <p class="availability-message">
                 {% if producto.stock > 0 %}
                     ¡Tenemos {{ producto.stock }} disponibles!

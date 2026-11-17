@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -72,7 +73,7 @@
                         <div class="product-info">
                             <div class="product-title-row">
                                 <h3>{{ pastel.nombre }}</h3>
-                                <span class="product-price">${{ pastel.precio }}</span>
+                                <span class="product-price">${{ pastel.precio|floatformat:0|intcomma }}</span>
                             </div>
                             <p>{{ pastel.descripcion|truncatewords:18 }}</p>
                             <div class="product-meta">
