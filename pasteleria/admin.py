@@ -33,6 +33,8 @@ class ProductoAdmin(admin.ModelAdmin):
         'disponibilidad',
         'porcion',
         'imagen_preview',
+        'visible_en_catalogo',
+
     )
     list_filter = (DisponibilidadFilter,)
     readonly_fields = ('imagen_preview',)
@@ -44,6 +46,7 @@ class ProductoAdmin(admin.ModelAdmin):
         'porcion',
         'imagen',
         'imagen_preview',
+        'visible_en_catalogo',
     )
 
     @admin.display(description='Vista previa')

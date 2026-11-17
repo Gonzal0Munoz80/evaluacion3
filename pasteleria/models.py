@@ -9,6 +9,7 @@ class producto(models.Model):
     stock = models.IntegerField()
     porcion = models.CharField(max_length=50)
     imagen = models.ImageField(upload_to='productos/',blank=True, null=True)
+    visible_en_catalogo = models.BooleanField(default=True, verbose_name='Visible en catálogo')
     def __str__(self):
         return self.nombre
 

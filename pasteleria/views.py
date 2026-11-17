@@ -5,12 +5,17 @@ from .models import producto
 
 
 def catalogo(request):
-    productos = producto.objects.all().order_by('nombre')
+    productos = producto.objects.filter(
+        visible_en_catalogo=True,
+    ).order_by('nombre')
     return render(request, 'pasteleria/catalogo.html', {'productos': productos})
 
 
 def detalle_producto(request, producto_id):
-    producto_actual = producto.objects.filter(pk=producto_id).first()
+    producto_actual = producto.objects.filter(
+        pk=producto_id,
+        visible_en_catalogo=True,
+    ).first()
     if producto_actual is None:
         return render(request, 'pasteleria/404.html', status=404)
 
@@ -22,7 +27,11 @@ def detalle_producto(request, producto_id):
 
 
 def crear_encargo(request, producto_id):
-    producto_actual = get_object_or_404(producto, pk=producto_id)
+    producto_actual = get_object_or_404(
+        producto,
+        pk=producto_id,
+        visible_en_catalogo=True,
+    )
     if producto_actual.stock <= 0:
         return redirect('detalle_producto', producto_id=producto_actual.pk)
 
