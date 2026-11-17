@@ -37,6 +37,7 @@ class ProductoAdmin(admin.ModelAdmin):
 
     )
     list_filter = (DisponibilidadFilter,)
+    search_fields = ('nombre',)
     readonly_fields = ('imagen_preview',)
     fields = (
         'nombre',
@@ -65,7 +66,7 @@ class ProductoAdmin(admin.ModelAdmin):
     def precio_formateado(self, obj):
         precio = format(obj.precio, ',.2f')
         precio = precio.translate(str.maketrans('..', '..'))
-        return f'${precio}'
+        return f'${obj.precio:,.0f}'.replace(',', '.')
 
     @admin.display(description='Disponibilidad', ordering='stock')
     def disponibilidad(self, obj):
