@@ -38,7 +38,7 @@ def crear_encargo(request, producto_id):
     enviado = False
     encargo_creado = None
     if request.method == 'POST':
-        form = EncargoForm(request.POST)
+        form = EncargoForm(request.POST, producto=producto_actual)
         if form.is_valid():
             nuevo_encargo = form.save(commit=False)
             nuevo_encargo.producto = producto_actual
@@ -47,7 +47,7 @@ def crear_encargo(request, producto_id):
             enviado = True
             encargo_creado = nuevo_encargo
     else:
-        form = EncargoForm()
+        form = EncargoForm(producto=producto_actual)
 
     return render(
         request,

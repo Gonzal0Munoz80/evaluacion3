@@ -72,6 +72,22 @@ class CatalogoTests(TestCase):
         )
         self.assertEqual(nuevo_encargo.fecha_retiro.isoformat(), '2026-11-20')
 
+    def test_formulario_muestra_stock_disponible_si_cantidad_se_excede(self):
+        response = self.client.post(
+            reverse('crear_encargo', args=[self.disponible.pk]),
+            {
+                'nombre': 'Ana Pérez',
+                'correo': 'ana@example.com',
+                'telefono': '+56912345678',
+                'fecha_retiro': '2026-11-20',
+                'cantidad': 4,
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Solo hay 3 unidades disponibles.')
+        self.assertFalse(encargo.objects.exists())
+
     def test_producto_agotado_no_puede_encargarse(self):
         response = self.client.get(
             reverse('crear_encargo', args=[self.agotado.pk]),
