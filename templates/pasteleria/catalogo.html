@@ -62,13 +62,12 @@
                         <a class="product-image"
                            href="{% if pastel.stock > 0 %}{% url 'crear_encargo' pastel.id %}{% else %}{% url 'detalle_producto' pastel.id %}{% endif %}"
                            aria-label="{% if pastel.stock > 0 %}Encargar{% else %}Ver disponibilidad de{% endif %} {{ pastel.nombre }}">
-                            <span class="product-image-decoration" aria-hidden="true">✦</span>
-                            <span class="product-image-name">{{ pastel.nombre }}</span>
-                            {% if pastel.stock <= 0 %}
-                                <span class="stock-badge sold-out">Agotado por hoy</span>
-                            {% else %}
-                                <span class="stock-badge">Disponible</span>
-                            {% endif %}
+                           {% if pastel.imagen %}
+    <img src="{{ pastel.imagen.url }}" alt="{{ pastel.nombre }}"
+         style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+{% else %}
+    <span class="product-image-decoration" aria-hidden="true">✦</span>
+{% endif %}
                         </a>
                         <div class="product-info">
                             <div class="product-title-row">

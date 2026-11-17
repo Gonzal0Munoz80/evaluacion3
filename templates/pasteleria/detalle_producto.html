@@ -18,19 +18,14 @@
     </header>
 
     <main class="detail-section">
-        <div class="detail-art" aria-hidden="true">✦</div>
-        <div class="detail-copy">
-            <p class="eyebrow">Preparado artesanalmente</p>
-            <h1>{{ producto.nombre }}</h1>
-            <p>{{ producto.descripcion }}</p>
-            <p class="detail-portion">Porción: {{ producto.porcion }}</p>
-            <p class="detail-price">${{ producto.precio|floatformat:0|intcomma }}</p>
-            <p class="availability-message">
-                {% if producto.stock > 0 %}
-                    ¡Tenemos {{ producto.stock }} disponibles!
-                {% else %}
-                    Agotado por hoy.
-                {% endif %}
+       <div class="detail-art">
+    {% if producto.imagen %}
+        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}"
+             style="max-width: 100%; max-height: 360px; object-fit: cover;">
+    {% else %}
+        ✦
+    {% endif %}
+</div>
             </p>
             {% if producto.stock > 0 %}
                 <a class="button button-primary" href="{% url 'crear_encargo' producto.id %}">
