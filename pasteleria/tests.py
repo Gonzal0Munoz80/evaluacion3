@@ -2,13 +2,15 @@ from django.test import TestCase
 
 from django.urls import reverse
 
-from .models import encargo, producto
+from .models import encargo, linea, producto
 
 
 class CatalogoTests(TestCase):
     def setUp(self):
+        self.linea = linea.objects.create(nombre='Tortas')
         self.disponible = producto.objects.create(
             nombre='Torta de frutilla',
+            linea=self.linea,
             descripcion='Bizcocho con crema y frutillas frescas.',
             precio='18000.00',
             stock=3,
@@ -16,6 +18,7 @@ class CatalogoTests(TestCase):
         )
         self.agotado = producto.objects.create(
             nombre='Torta de chocolate',
+            linea=self.linea,
             descripcion='Bizcocho de chocolate con ganache.',
             precio='20000.00',
             stock=0,

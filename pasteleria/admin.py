@@ -1,10 +1,16 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import producto, encargo
+from .models import linea, producto, encargo
 
 
 # Register your models here.
+@admin.register(linea)
+class LineaAdmin(admin.ModelAdmin):
+    list_display = ('nombre',)
+    search_fields = ('nombre',)
+
+
 class DisponibilidadFilter(admin.SimpleListFilter):
     title = 'Disponibilidad'
     parameter_name = 'disponibilidad'
@@ -27,24 +33,28 @@ class DisponibilidadFilter(admin.SimpleListFilter):
 class ProductoAdmin(admin.ModelAdmin):
     list_display = (
         'nombre',
+        'linea',
         'descripcion',
         'precio_formateado',
         'stock',
+        'apto_celiacos',
         'disponibilidad',
         'porcion',
         'imagen_preview',
         'visible_en_catalogo',
 
     )
-    list_filter = (DisponibilidadFilter,)
+    list_filter = (DisponibilidadFilter, 'linea', 'apto_celiacos')
     search_fields = ('nombre',)
     readonly_fields = ('imagen_preview',)
     fields = (
         'nombre',
+        'linea',
         'descripcion',
         'precio',
         'stock',
         'porcion',
+        'apto_celiacos',
         'imagen',
         'imagen_preview',
         'visible_en_catalogo',

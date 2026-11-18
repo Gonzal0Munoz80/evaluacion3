@@ -5,13 +5,29 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 # Create your models here.
 
+class linea(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.nombre
+
+
 class producto(models.Model):
     nombre = models.CharField(max_length=100)
+    linea = models.ForeignKey(
+        linea,
+        on_delete=models.CASCADE,
+        related_name='productos',
+    )
     descripcion = models.TextField()
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField()
     porcion = models.CharField(max_length=50)
     imagen = models.ImageField(upload_to='productos/',blank=True, null=True)
+    apto_celiacos = models.BooleanField(
+        default=False,
+        verbose_name='Apto para celíacos',
+    )
     visible_en_catalogo = models.BooleanField(default=True, verbose_name='Visible en catálogo')
     def __str__(self):
         return self.nombre
