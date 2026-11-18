@@ -17,3 +17,9 @@ Y SUGERENCIAS DE COMO DESARROLLAR EL PROYECTO
 
 
 DATO IMPORTANTE EN LOS FORMULARIOS TUVE U NERROR QUE NO SABIA COMO CAMBIAR Y SE UTILIZO IA PARA ESE CAMBIO
+
+
+Ultimo cambio con ia para html css y views añadi la barra de busqueda en el catalogo
+
+
+resolucion de detalles
