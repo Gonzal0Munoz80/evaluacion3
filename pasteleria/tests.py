@@ -37,6 +37,27 @@ class CatalogoTests(TestCase):
             reverse('crear_encargo', args=[self.disponible.pk]),
         )
         self.assertContains(response, 'css/catalogo.css')
+        self.assertContains(response, 'Tortas')
+
+    def test_catalogo_busca_por_nombre_y_filtra_por_linea(self):
+        otra_linea = linea.objects.create(nombre='Kuchenes')
+        otro_producto = producto.objects.create(
+            nombre='Kuchen de manzana',
+            linea=otra_linea,
+            descripcion='Kuchen casero de manzana.',
+            precio='15000.00',
+            stock=2,
+            porcion='6 porciones',
+        )
+
+        response = self.client.get(
+            reverse('catalogo'),
+            {'q': 'Kuchen', 'linea': otra_linea.pk},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, otro_producto.nombre)
+        self.assertNotContains(response, self.disponible.nombre)
 
     def test_detalle_de_producto_disponible(self):
         response = self.client.get(

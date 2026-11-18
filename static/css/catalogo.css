@@ -269,6 +269,45 @@ h2,
     margin-bottom: 32px;
 }
 
+.catalog-filters {
+    display: flex;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.catalog-filters label {
+    display: grid;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.catalog-filters input,
+.catalog-filters select {
+    min-width: 190px;
+    min-height: 44px;
+    padding: 0 12px;
+    border: 1px solid #e8d8d2;
+    border-radius: 8px;
+    color: var(--ink);
+    background: #fff;
+    font: inherit;
+}
+
+.catalog-line-group + .catalog-line-group {
+    margin-top: 40px;
+}
+
+.catalog-line-group > h3 {
+    margin-bottom: 18px;
+    color: var(--ink);
+    font-family: 'Playfair Display', serif;
+    font-size: 25px;
+}
+
 .section-heading h2,
 .about-section h2 {
     margin-bottom: 0;

@@ -1,16 +1,43 @@
 from django.db import transaction
-from django.db.models import F
+from django.db.models import F, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import EncargoForm
-from .models import producto
+from .models import linea, producto
 
 
 def catalogo(request):
     productos = producto.objects.filter(
         visible_en_catalogo=True,
-    ).order_by('nombre')
-    return render(request, 'pasteleria/catalogo.html', {'productos': productos})
+    ).select_related('linea')
+
+    busqueda = request.GET.get('q', '').strip()
+    linea_id = request.GET.get('linea', '')
+    linea_seleccionada = None
+
+    if busqueda:
+        productos = productos.filter(
+            Q(nombre__icontains=busqueda)
+            | Q(descripcion__icontains=busqueda)
+            | Q(linea__nombre__icontains=busqueda)
+        )
+
+    if linea_id.isdigit():
+        linea_seleccionada = int(linea_id)
+        productos = productos.filter(linea_id=linea_seleccionada)
+
+    productos = productos.order_by('linea__nombre', 'nombre')
+    lineas = linea.objects.order_by('nombre')
+    return render(
+        request,
+        'pasteleria/catalogo.html',
+        {
+            'productos': productos,
+            'lineas': lineas,
+            'busqueda': busqueda,
+            'linea_seleccionada': linea_seleccionada,
+        },
+    )
 
 
 def detalle_producto(request, producto_id):
